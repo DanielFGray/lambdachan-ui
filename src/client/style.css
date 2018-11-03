@@ -2,9 +2,9 @@
   --hue: 220;
   --hue: 220;
   --primary-color: hsl(var(--hue), 50%, 50%);
-  --color-bg: #131313;
-  --color-bg-alt: #333;
-  --color-text: #eee;
+  --color-bg: #eee;
+  --color-bg-alt: #ccc;
+  --color-text: #111;
 }
 
 * {
