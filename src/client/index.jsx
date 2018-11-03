@@ -37,7 +37,7 @@ export default class Init extends React.Component {
           <Router basename={__appBase}>
             <Layout>
               <Switch>
-                <Route exact path={`/:board/:id`} component={Thread} />)}
+                <Route exact path={`/:board/:thread`} component={Thread} />)}
                 <Route exact path={`/:board`} component={Board} />)}
                 <Route exact path="/" component={Home} />
               </Switch>

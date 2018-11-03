@@ -21,5 +21,6 @@ module.exports = {
     'space-unary-ops': ['error', { overrides: { '!': true } }],
     'no-unused-vars': ['error', { argsIgnorePattern: '^_$' }],
     'react/destructuring-assignment': 'off',
+    'react/prop-types': 'off',
   },
 }
