@@ -25,30 +25,63 @@ export const OP = ({
   )
 }
 
-const List = ({ sort, data, board, sortChange }) => (
+const List = ({ sort, data, board, showForm, ...props }) => (
   <div>
     <div>
       <label>sort threads:</label>
-      <select onChange={sortChange} value={sort}>
+      <select onChange={props.inputChange('sort')} value={sort}>
         <option value="latest_reply_time">Last Reply</option>
         <option value="num_replies">Reply Count</option>
       </select>
     </div>
-    {sortBy(prop(sort), data).map(e => OP({ ...e, board }))}
+    {showForm ? <NewPost {...props} /> : <button onClick={props.toggle('showForm')} children="New Thread" />}
+    {data && sortBy(prop(sort), data).map(e => OP({ ...e, board }))}
   </div>
+)
+
+const NewPost = ({ subject, author, comment, inputChange, submitThread }) => (
+  <form onSubmit={submitThread}>
+    <div>
+      <input value={subject} placeholder="subject" onChange={inputChange('subject')} />
+      <input value={author} placeholder="author" onChange={inputChange('author')} />
+    </div>
+    <textarea value={comment} placeholder="comment" onChange={inputChange('comment')} />
+    <input type="submit" value="Send" />
+  </form>
 )
 
 class ThreadList extends React.Component {
   state = {
-    sort: 'latest_reply_time'
+    sort: 'latest_reply_time',
+    showForm: false,
+    subject: '',
+    author: '',
+    comment: '',
   }
 
-  sortChange = e => {
-    this.setState({ sort: e.target.value })
+  change = k => e => {
+    this.setState({ [k]: e.target.value })
+  }
+
+  toggle = k => e => {
+    this.setState(s => ({ [k]: ! s[k] }))
+  }
+
+  submitThread = e => {
+    e.preventDefault()
+    const { board } = this.props.match.params
+    const body = new FormData()
+    body.set('subject', this.state.subject)
+    body.set('author', this.state.author)
+    body.set('comment', this.state.comment)
+    fetch(`https://api.lambdachan.org/v1/boards/${board}`, { method: 'post', body })
+      .then(x => x.json())
+      .then(({ post_num }) => this.props.history.push(`/${board}/${post_num}`))
   }
 
   render() {
     const { board } = this.props.match.params
+    const { subject, sort, comment, author, showForm } = this.state
     return (
       <GetJson url={`https://api.lambdachan.org/v1/boards/${board}`}>
         {({ loading, data, errors }) => {
@@ -57,11 +90,17 @@ class ThreadList extends React.Component {
             console.log(errors)
             return 'an error happened'
           }
-          return data && List({
+          return List({
             data: data.threads,
-            sort: this.state.sort,
-            sortChange: this.sortChange,
+            inputChange: this.change,
+            toggle: this.toggle,
+            showForm,
             board,
+            sort,
+            subject,
+            author,
+            comment,
+            submitThread: this.submitThread,
           })
         }}
       </GetJson>
