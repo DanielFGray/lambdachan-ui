@@ -1,13 +1,13 @@
 import React from 'react'
 import GetJson from './GetJson'
-import Stringify from './Stringify'
+import Thread from './Thread'
 
 const Board = props => (
   <GetJson url={`https://api.lambdachan.org/v1/boards/${props.match.params.board}`}>
     {({ loading, data, errors }) => {
       if (loading) return 'Loading...'
       if (errors) console.log(errors)
-      return data && data.threads.map(e => <Stringify {...e} />)
+      return data && data.threads.map(e => <Thread key={e.post_num} board={props.match.params.board} {...e} />)
     }}
   </GetJson>
 )

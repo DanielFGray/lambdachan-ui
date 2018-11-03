@@ -1,6 +1,6 @@
 const path = require('path')
 
-const appTitle = '[insert title]'
+const appTitle = 'LambdaChan'
 const appBase = ''
 const mount = 'root'
 const publicDir = path.resolve('./public')
