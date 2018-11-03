@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import Layout from './Layout'
 import Home from './Home'
 import Board from './Board'
+import Thread from './Thread'
 import ctx from './ctx'
 import './style.css'
 
@@ -36,6 +37,7 @@ export default class Init extends React.Component {
           <Router basename={__appBase}>
             <Layout>
               <Switch>
+                <Route exact path={`/:board/:id`} component={Thread} />)}
                 <Route exact path={`/:board`} component={Board} />)}
                 <Route exact path="/" component={Home} />
               </Switch>

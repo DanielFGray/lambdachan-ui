@@ -93,3 +93,9 @@ input[type] {
     outline: 0;
   }
 }
+
+.thread_op, .thread_comment {
+  margin: 1em;
+  background-color: var(--color-bg-alt);
+  padding: 0.5em
+}
