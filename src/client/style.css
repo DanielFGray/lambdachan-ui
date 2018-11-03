@@ -94,7 +94,8 @@ input[type] {
   }
 }
 
-.thread_op, .thread_comment {
+.thread_op,
+.thread_comment {
   margin: 1em 0;
   background-color: var(--color-bg-alt);
   padding: 0.5em

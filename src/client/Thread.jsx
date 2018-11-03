@@ -26,7 +26,7 @@ const Comment = ({ post_num, board, thread, author, time, comment }) => {
 
 export default class CommentList extends React.Component {
   state = {
-    subject: '',
+    author: '',
     comment: '',
     error: null,
   }
@@ -44,9 +44,11 @@ export default class CommentList extends React.Component {
     fetch(`https://api.lambdachan.org/v1/boards/${board}/${thread}`, { method: 'post', body })
       .then(x => x.json())
       .then(x => {
+        console.log({ x })
         if (x.error) {
           this.setState({ error: x.error })
         } else {
+          this.setState({ comment: '' })
           refresh()
         }
       })
@@ -60,12 +62,12 @@ export default class CommentList extends React.Component {
         {({ loading, data, errors }, refresh) => {
           if (errors) {
             console.log(errors)
-            return 'an error happened'
+            return <p>an error happened fetching this thread :(</p>
           }
           if (! data && loading) return 'Loading...'
           return data && (
             <>
-              {OP({ board, ...data.op})}
+              {OP({ board, ...data.op })}
               {data.posts.map(e => <Comment key={e.post_num} {...{ ...e, board, thread }}/>)}
               {loading && <div>Loading...</div>}
               {error && <div>{error}</div>}

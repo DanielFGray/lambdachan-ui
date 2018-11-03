@@ -9,7 +9,7 @@ export default class GetJson extends React.Component {
 
   state = {
     data: null,
-    error: null,
+    errors: null,
     loading: true,
   }
 
@@ -23,12 +23,12 @@ export default class GetJson extends React.Component {
     }
   }
 
-  fetch = url => {
+  fetch = (url = this.props.url) => {
     this.setState({ loading: true })
     fetch(url)
       .then(x => x.json())
-      .then(data => this.setState({ data, loading: false, error: null }))
-      .catch(e => this.setState({ error: e, loading: false }))
+      .then(data => this.setState({ data, loading: false, errors: null }))
+      .catch(e => this.setState({ errors: e, loading: false }))
   }
 
   render() {

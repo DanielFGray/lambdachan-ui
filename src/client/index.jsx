@@ -12,6 +12,7 @@ import './style.css'
 export default class Init extends React.Component {
   state = {
     boards: [],
+    author: '',
   }
 
   getBoards = () => {
