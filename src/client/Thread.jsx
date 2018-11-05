@@ -39,7 +39,7 @@ export default class CommentList extends React.Component {
     e.preventDefault()
     const { board, thread } = this.props.match.params
     const body = new FormData()
-    body.set('author', this.state.author)
+    body.set('name', this.state.author)
     body.set('comment', this.state.comment)
     fetch(`https://api.lambdachan.org/v1/boards/${board}/${thread}`, { method: 'post', body })
       .then(x => x.json())

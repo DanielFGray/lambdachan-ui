@@ -72,7 +72,7 @@ class ThreadList extends React.Component {
     const { board } = this.props.match.params
     const body = new FormData()
     body.set('subject', this.state.subject)
-    body.set('author', this.state.author)
+    body.set('name', this.state.author)
     body.set('comment', this.state.comment)
     fetch(`https://api.lambdachan.org/v1/boards/${board}`, { method: 'post', body })
       .then(x => x.json())
