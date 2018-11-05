@@ -15,7 +15,7 @@ export const OP = ({
   comment,
   board,
 }) => {
-  const postTime = ago(new Date(post_time))
+  const date = new Date(post_time)
   return (
     <div className="thread_op" key={post_num}>
       <div className="header">
@@ -25,7 +25,7 @@ export const OP = ({
         {' by '}
         {author}
         {' '}
-        {postTime}
+        <a title={date.toLocaleString()} className="date">{ago(date)}</a>
       </div>
       <div className="body">{comment}</div>
       <div className="footer">{num_replies} replies</div>

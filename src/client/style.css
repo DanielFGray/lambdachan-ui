@@ -99,6 +99,10 @@ textarea[placeholder=comment] {
   color: var(--accent) !important;
 }
 
+.header, .footer {
+  font-size: smaller;
+}
+
 .header a {
   text-decoration: none;
   color: var(--accent);
@@ -113,9 +117,13 @@ textarea[placeholder=comment] {
   color: var(--accent-darker);
 }
 
+.header .subject {
+  font-weight: bold;
+}
+
 .header a.date {
   color: var(--dark);
-  border-bottom: 1px var(--dark) dashed;
+  border-bottom: 1px var(--light-darker) dashed;
   cursor: help;
 }
 
