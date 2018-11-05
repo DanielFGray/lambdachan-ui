@@ -7,6 +7,7 @@ import Home from './Home'
 import Board from './Board'
 import Thread from './Thread'
 import ctx from './ctx'
+import 'normalize.css'
 import './style.css'
 
 export default class Init extends React.Component {
