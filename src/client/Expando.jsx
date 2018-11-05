@@ -11,7 +11,11 @@ export default class extends React.Component {
   render() {
     const { expanded } = this.state
     return expanded
-      ? <a href={this.props.src} onClick={this.click}><img src={this.props.src} alt={this.props.alt} /></a>
-      : <a href={this.props.src} onClick={this.click}>{this.props.alt}</a>
+      ? (
+        <a href={this.props.src} onClick={this.click}>
+          <img src={this.props.src} alt={this.props.alt} />
+        </a>
+      )
+      : <a href={this.props.src} onClick={this.click}>{this.props.alt || this.props.src}</a>
   }
 }
