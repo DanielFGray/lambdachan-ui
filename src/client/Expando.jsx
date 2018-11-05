@@ -15,7 +15,10 @@ export default class extends React.Component {
         <a href={this.props.src} onClick={this.click}>
           <img src={this.props.src} alt={this.props.alt} />
         </a>
+      ) : (
+        <a href={this.props.src} onClick={this.click}>
+          {this.props.alt || this.props.src}
+        </a>
       )
-      : <a href={this.props.src} onClick={this.click}>{this.props.alt || this.props.src}</a>
   }
 }

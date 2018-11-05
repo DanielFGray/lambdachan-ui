@@ -137,6 +137,9 @@ textarea[placeholder=comment] {
   margin: 10px;
   padding-left: 10px;
   border-left: 2px solid var(--light-darker);
+  max-height: 20em;
+  max-height: 30vh;
+  overflow-y: auto;
 
   & img {
     max-height: 15em;
