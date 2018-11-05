@@ -6,9 +6,9 @@ export default () => (
   <ctx.Consumer>
     {({ boards }) => (
       <ul className="nav">
-        {boards.map(({ name }) => (
+        {boards.map(({ name, description }) => (
           <li key={name}>
-            <Link to={`/${name}`}>{name}</Link>
+            <Link to={`/${name}`} title={description}>{name}</Link>
           </li>
         ))}
       </ul>

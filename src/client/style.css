@@ -20,6 +20,7 @@ body {
   font-family: system-ui;
   background: #fff;
   min-height: 100vh;
+  line-height: 1.3;
 }
 
 textarea,
@@ -99,7 +100,8 @@ textarea[placeholder=comment] {
   color: var(--accent) !important;
 }
 
-.header, .footer {
+.header,
+.footer {
   font-size: smaller;
 }
 

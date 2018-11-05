@@ -42,7 +42,8 @@ const List = ({ sort, data, board, showForm, ...props }) => (
         <option value="num_replies">Reply Count</option>
       </select>
     </div>
-    {showForm ? <NewPost {...props} /> : <button onClick={props.toggle('showForm')} children="New Thread" />}
+    <button onClick={props.toggle('showForm')} children={showForm ? 'Close' : 'New Thread'} />
+    {showForm && <NewPost {...props} />}
     {data && sortBy(prop(sort), data).map(e => OP({ ...e, board }))}
   </div>
 )
