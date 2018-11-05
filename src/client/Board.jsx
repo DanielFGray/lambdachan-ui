@@ -46,7 +46,7 @@ const List = ({ sort, data, board, showForm, ...props }) => (
     </div>
     <button onClick={props.toggle('showForm')} children={showForm ? 'Close' : 'New Thread'} />
     {showForm && <NewPost {...props} />}
-    {data && sortBy(prop(sort), data).map(e => OP({ ...e, board }))}
+    {data && sortBy(prop(sort), data).reverse().map(e => OP({ ...e, board }))}
   </div>
 )
 
