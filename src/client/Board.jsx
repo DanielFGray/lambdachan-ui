@@ -18,7 +18,15 @@ export const OP = ({
   const postTime = ago(new Date(post_time))
   return (
     <div className="thread_op" key={post_num}>
-      <div className="header"><Link to={`/${board}/${post_num}`}>#{post_num}</Link> {postTime} {author}</div>
+      <div className="header">
+        <Link to={`/${board}/${post_num}`}>#{post_num}</Link>
+        {' '}
+        <span className="subject">{subject}</span>
+        {' by '}
+        {author}
+        {' '}
+        {postTime}
+      </div>
       <div className="body">{comment}</div>
       <div className="footer">{num_replies} replies</div>
     </div>

@@ -15,10 +15,16 @@ const NewComment = ({ author, comment, inputChange, submitComment }) => (
 )
 
 const Comment = ({ post_num, board, thread, author, time, comment }) => {
-  const time_ago = ago(new Date(time))
+  const date = new Date(time)
   return (
     <div className="thread_comment" key={post_num}>
-      <div className="header"><Link to={`/${board}/${thread}/#${post_num}`}>#{post_num}</Link> {time_ago} {author}</div>
+      <div className="header">
+        <Link to={`/${board}/${thread}/#${post_num}`}>#{post_num}</Link>
+        {' by '}
+        {author}
+        {' '}
+        <a title={date.toLocaleString()} className="date">{ago(date)}</a>
+      </div>
       <div className="body">{comment}</div>
     </div>
   )
