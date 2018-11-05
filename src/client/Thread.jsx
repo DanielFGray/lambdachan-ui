@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import ago from 's-ago'
 import GetJson from './GetJson'
 import { OP } from './Board'
+import { markdown } from './utils'
+import PostEditor from './PostEditor'
 
 const NewComment = ({ author, comment, inputChange, submitComment }) => (
   <form onSubmit={submitComment}>
     <input value={author} placeholder="author" onChange={inputChange('author')} />
     <div>
-      <textarea value={comment} placeholder="comment" onChange={inputChange('comment')} />
+      <PostEditor value={comment} placeholder="comment" onChange={inputChange('comment')} />
     </div>
     <input type="submit" value="Send" />
   </form>
@@ -25,7 +27,7 @@ const Comment = ({ post_num, board, thread, author, time, comment }) => {
         {' '}
         <a title={date.toLocaleString()} className="date">{ago(date)}</a>
       </div>
-      <div className="body">{comment}</div>
+      <div className="body">{markdown(comment)}</div>
     </div>
   )
 }

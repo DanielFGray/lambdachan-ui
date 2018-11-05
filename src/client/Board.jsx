@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import ago from 's-ago'
 import GetJson from './GetJson'
 import Stringify from './Stringify'
+import { markdown } from './utils'
+import PostEditor from './PostEditor'
 
 export const OP = ({
   post_num,
@@ -27,7 +29,7 @@ export const OP = ({
         {' '}
         <a title={date.toLocaleString()} className="date">{ago(date)}</a>
       </div>
-      <div className="body">{comment}</div>
+      <div className="body">{markdown(comment)}</div>
       <div className="footer">{num_replies} replies</div>
     </div>
   )
@@ -54,7 +56,7 @@ const NewPost = ({ subject, author, comment, inputChange, submitThread }) => (
       <input value={subject} placeholder="subject" onChange={inputChange('subject')} />
       <input value={author} placeholder="author" onChange={inputChange('author')} />
     </div>
-    <textarea value={comment} placeholder="comment" onChange={inputChange('comment')} />
+    <PostEditor value={comment} placeholder="comment" onChange={inputChange('comment')} />
     <input type="submit" value="Send" />
   </form>
 )

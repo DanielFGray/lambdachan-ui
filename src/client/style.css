@@ -148,3 +148,15 @@ textarea[placeholder=comment] {
   margin-bottom: 35px;
   margin-top: 15px;
 }
+
+.editor {
+  display: flex;
+
+  & .md_preview {
+    width: 50%
+  }
+
+  & > textarea {
+    width: 50%
+  }
+}
