@@ -4,13 +4,13 @@ import ago from 's-ago'
 import GetJson from './GetJson'
 import { OP } from './Board'
 import { markdown } from './utils'
-import PostEditor from './PostEditor'
+import { UncontrolledEditor } from './PostEditor'
 
 const NewComment = ({ author, comment, inputChange, submitComment }) => (
   <form onSubmit={submitComment}>
     <input value={author} placeholder="author" onChange={inputChange('author')} />
     <div>
-      <PostEditor value={comment} placeholder="comment" onChange={inputChange('comment')} />
+      <UncontrolledEditor value={comment} placeholder="comment" onChange={inputChange('comment')} />
     </div>
     <input type="submit" value="Send" />
   </form>
@@ -74,7 +74,7 @@ export default class CommentList extends React.Component {
           }
           if (! data && loading) return 'Loading...'
           return data && (
-            <>
+            <div className="thread">
               {OP({ board, ...data.op })}
               {data.posts.map(e => <Comment key={e.post_num} {...{ ...e, board, thread }}/>)}
               {loading && <div>Loading...</div>}
@@ -85,7 +85,7 @@ export default class CommentList extends React.Component {
                 comment,
                 author,
               })}
-            </>
+            </div>
           )
         }}
       </GetJson>

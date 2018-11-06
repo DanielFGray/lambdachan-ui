@@ -1,7 +1,10 @@
 import * as React from 'react'
 
 export default class extends React.Component {
-  state = { expanded: false }
+  state = {
+    expanded: false,
+  }
+
 
   click = e => {
     e.preventDefault()

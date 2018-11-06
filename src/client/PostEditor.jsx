@@ -1,12 +1,13 @@
 import React from 'react'
+import Textarea from 'react-textarea-autosize'
 import { markdown } from './utils'
 
-export default ({ onChange, value, children, ...props }) => {
+export const UncontrolledEditor = ({ onChange, value, children, ...props }) => {
   const content = value || children
   return (
     <div className="editor">
-      <textarea onChange={onChange} value={content} {...props} />
-      <div className="md_preview">{markdown(content)}</div>
+      <Textarea onChange={onChange} value={content} {...props} />
+      <div className="body md_preview">{markdown(content)}</div>
     </div>
   )
 }

@@ -1,11 +1,24 @@
 import React from 'react'
-import { prop, sortBy } from 'ramda'
 import { Link } from 'react-router-dom'
 import ago from 's-ago'
 import GetJson from './GetJson'
 import Stringify from './Stringify'
 import { markdown } from './utils'
-import PostEditor from './PostEditor'
+import { UncontrolledEditor } from './PostEditor'
+
+const sortBy = (key, data) => data.sort((a, b) => {
+  const [aa, bb] = [a[key], b[key]]
+  return aa < bb ? 1 : aa > bb ? -1 : 0
+})
+
+const NewPost = ({ subject, author, comment, inputChange, submitThread }) => (
+  <form onSubmit={submitThread} className="new_thread">
+    <input value={subject} placeholder="subject" onChange={inputChange('subject')} />
+    <input value={author} placeholder="author" onChange={inputChange('author')} />
+    <UncontrolledEditor value={comment} placeholder="comment" onChange={inputChange('comment')} />
+    <input type="submit" value="Send" />
+  </form>
+)
 
 export const OP = ({
   post_num,
@@ -35,36 +48,31 @@ export const OP = ({
   )
 }
 
-const List = ({ sort, data, board, showForm, ...props }) => (
-  <div>
-    <div>
-      <label>sort threads:</label>
-      <select onChange={props.inputChange('sort')} value={sort}>
+const List = ({ sortKey, data, board, showForm, ...props }) => (
+  <div className="board">
+    <div className="controls">
+      <label>sort threads: </label>
+      <select onChange={props.inputChange('sortKey')} value={sortKey}>
         <option value="latest_reply_time">Last Reply</option>
         <option value="num_replies">Reply Count</option>
       </select>
+      <button onClick={props.toggle('showForm')} children={showForm ? 'Close' : 'New Thread'} />
     </div>
-    <button onClick={props.toggle('showForm')} children={showForm ? 'Close' : 'New Thread'} />
     {showForm && <NewPost {...props} />}
-    {data && sortBy(prop(sort), data).reverse().map(e => OP({ ...e, board }))}
-  </div>
-)
-
-const NewPost = ({ subject, author, comment, inputChange, submitThread }) => (
-  <form onSubmit={submitThread}>
-    <div>
-      <input value={subject} placeholder="subject" onChange={inputChange('subject')} />
-      <input value={author} placeholder="author" onChange={inputChange('author')} />
+    <div className="threadlist">
+      {data && sortBy(sortKey, data).map(e => 
+        <Link to={`/${board}/${e.post_num}`}>
+          {OP({ ...e, board })}
+        </Link>
+      )}
     </div>
-    <PostEditor value={comment} placeholder="comment" onChange={inputChange('comment')} />
-    <input type="submit" value="Send" />
-  </form>
+  </div>
 )
 
 class ThreadList extends React.Component {
   state = {
-    sort: 'latest_reply_time',
-    showForm: false,
+    sortKey: 'latest_reply_time',
+    showForm: true,
     subject: '',
     author: '',
     comment: '',
@@ -92,7 +100,7 @@ class ThreadList extends React.Component {
 
   render() {
     const { board } = this.props.match.params
-    const { subject, sort, comment, author, showForm } = this.state
+    const { subject, sortKey, comment, author, showForm } = this.state
     return (
       <GetJson url={`https://api.lambdachan.org/v1/boards/${board}`}>
         {({ loading, data, errors }) => {
@@ -107,7 +115,7 @@ class ThreadList extends React.Component {
             toggle: this.toggle,
             showForm,
             board,
-            sort,
+            sortKey,
             subject,
             author,
             comment,

@@ -20,7 +20,7 @@ body {
   font-family: system-ui;
   background: #fff;
   min-height: 100vh;
-  line-height: 1.3;
+  line-height: 1.5;
 }
 
 textarea,
@@ -31,38 +31,49 @@ input {
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   margin-bottom: 10px;
   background: var(--light);
-  border: 1px solid var(--accent);
+  border: 1px solid var(--light-darker);
   border-radius: 4px;
   box-shadow: none;
+
+  &:hover {
+    border: 1px solid var(--accent);
+  }
 }
 
-button,
-input[type=submit] {
-  background: var(--light-darker);
-  padding: 10px;
-  border: 0;
+@media (max-width: 382px) {
+  body {
+    font-size: 1.35rem;
+  }
 }
 
-textarea {
-  width: 600px;
-  height: 120px;
-  border: 1px solid #ccc;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+  font-weight: 700;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
-input {
-  padding: 5px;
+pre {
+  display: block;
+  padding: 1em;
 }
 
-input[type=submit] {
-  margin: 10px;
+code {
+  font-family: monospace;
+  white-space: pre-wrap;
 }
 
-input[placeholder=author] {
-  margin: 10px 10px 0;
-}
-
-textarea[placeholder=comment] {
-  margin: 10px;
+pre > code {
+  padding: 0;
+  white-space: pre;
+  overflow-x: auto;
 }
 
 .main {
@@ -76,19 +87,15 @@ textarea[placeholder=comment] {
   top: 25px;
 }
 
-.main div div select {
-  margin-left: 5px;
-}
-
 .nav {
   background: var(--light);
-  position: absolute;
-  left: 0;
   height: 100%;
-  list-style-type: none;
-  padding: 30px 20px;
-  margin: 0;
+  left: 0;
   line-height: 1.5;
+  list-style-type: none;
+  margin: 0;
+  padding: 30px 20px;
+  position: fixed;
 }
 
 .nav::after {
@@ -98,6 +105,48 @@ textarea[placeholder=comment] {
 
 .active {
   color: var(--accent) !important;
+}
+
+.body {
+  padding-left: 0.5em;
+  border-left: 2px solid var(--light-darker);
+  overflow: hidden;
+
+  & img {
+    max-height: 15em;
+  }
+
+  & blockquote {
+    color: #0c0;
+    margin: 0;
+    padding: 0 1em;
+    border-left: 2px solid var(--light-darker);
+  }
+}
+
+.thread_op {
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+}
+
+.threadlist {
+  display: flex;
+  flex-flow: row wrap;
+
+  & a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  & .thread_op {
+    width: 30em;
+    margin: auto;
+
+    & .body {
+      max-height: 10em;
+      overflow: hidden;
+    }
+  }
 }
 
 .header,
@@ -133,37 +182,56 @@ textarea[placeholder=comment] {
   margin: 20px;
 }
 
-.body {
-  margin: 10px;
-  padding-left: 10px;
-  border-left: 2px solid var(--light-darker);
-  max-height: 20em;
-  max-height: 30vh;
-  overflow-y: auto;
-
-  & img {
-    max-height: 15em;
-  }
-}
-
 .footer {
   font-style: italic;
   color: var(--dark-even-lighter);
 }
 
-.thread_op {
-  margin-bottom: 35px;
-  margin-top: 15px;
-}
-
 .editor {
   display: flex;
+  flex-flow: row wrap;
 
   & .md_preview {
-    width: 50%;
+    width: 48%;
+    margin: 0;
   }
 
-  & > textarea {
-    width: 50%;
+  & textarea {
+    width: 48%;
   }
+}
+
+.new_thread {
+  display: grid;
+  column-gap: 0.5em;
+  grid-template-columns: repeat(4, 25%);
+  grid-template-areas:
+    'subject author . .'
+    'editor editor editor editor'
+    'submit . . .';
+
+  & input[placeholder='subject'] {
+    grid-area: subject;
+    width: inherit;
+  }
+
+  & input[placeholder='author'] {
+    grid-area: author;
+    width: inherit;
+  }
+
+  & .editor {
+    grid-area: editor;
+    width: 100%;
+  }
+
+  & input[type='submit'] {
+    grid-area: submit;
+    width: 10em;
+  }
+}
+
+.thread {
+  max-width: 48em;
+  margin: 0 auto;
 }
