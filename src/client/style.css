@@ -81,12 +81,6 @@ pre > code {
   margin-left: 100px;
 }
 
-.main div button {
-  position: absolute;
-  right: 25px;
-  top: 25px;
-}
-
 .nav {
   background: var(--light);
   height: 100%;
@@ -96,11 +90,7 @@ pre > code {
   margin: 0;
   padding: 30px 20px;
   position: fixed;
-}
 
-.nav::after {
-  content: "\a";
-  white-space: pre;
 }
 
 .active {
@@ -132,6 +122,8 @@ pre > code {
 .threadlist {
   display: flex;
   flex-flow: row wrap;
+  max-width
+  margin: 0 auto;
 
   & a {
     color: inherit;
@@ -187,28 +179,14 @@ pre > code {
   color: var(--dark-even-lighter);
 }
 
-.editor {
-  display: flex;
-  flex-flow: row wrap;
-
-  & .md_preview {
-    width: 48%;
-    margin: 0;
-  }
-
-  & textarea {
-    width: 48%;
-  }
-}
-
 .new_thread {
   display: grid;
   column-gap: 0.5em;
   grid-template-columns: repeat(4, 25%);
   grid-template-areas:
-    'subject author . .'
-    'editor editor editor editor'
-    'submit . . .';
+    'subject author preview preview'
+    'editor editor preview preview'
+    'submit . preview preview';
 
   & input[placeholder='subject'] {
     grid-area: subject;
@@ -229,9 +207,34 @@ pre > code {
     grid-area: submit;
     width: 10em;
   }
+
+  & .md_preview {
+    width: 48%;
+    margin: 0;
+    grid-area: preview;
+  }
+
+  & textarea {
+    width: 100%;
+    grid-area: editor;
+  }
 }
 
 .thread {
   max-width: 48em;
   margin: 0 auto;
+}
+
+@media (max-width: 800px) {
+  .new_thread {
+    width: 100%;
+    display: grid;
+    column-gap: 0.5em;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-areas:
+      'subject author'
+      'editor editor'
+      'preview preview'
+      'submit .';
+  }
 }
