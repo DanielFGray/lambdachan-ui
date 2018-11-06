@@ -51,16 +51,20 @@ export const OP = ({
 const List = ({ sortKey, data, board, showForm, ...props }) => (
   <div className="board">
     <div className="controls">
-      <label>sort threads: </label>
-      <select onChange={props.inputChange('sortKey')} value={sortKey}>
-        <option value="latest_reply_time">Last Reply</option>
-        <option value="num_replies">Reply Count</option>
-      </select>
-      <button onClick={props.toggle('showForm')} children={showForm ? 'Close' : 'New Thread'} />
+      <div className="sort">
+        <label>sort threads: </label>
+        <select onChange={props.inputChange('sortKey')} value={sortKey}>
+          <option value="latest_reply_time">Last Reply</option>
+          <option value="num_replies">Reply Count</option>
+        </select>
+      </div>
+      <div className="formToggle">
+        <button onClick={props.toggle('showForm')} children={showForm ? 'Close' : 'New Thread'} />
+      </div>
     </div>
     {showForm && <NewPost {...props} />}
     <div className="threadlist">
-      {data && sortBy(sortKey, data).map(e => 
+      {data && sortBy(sortKey, data).map(e =>
         <Link to={`/${board}/${e.post_num}`}>
           {OP({ ...e, board })}
         </Link>
@@ -72,13 +76,13 @@ const List = ({ sortKey, data, board, showForm, ...props }) => (
 class ThreadList extends React.Component {
   state = {
     sortKey: 'latest_reply_time',
-    showForm: true,
+    showForm: false,
     subject: '',
     author: '',
     comment: '',
   }
 
-  change = k => e => {
+  inputChange = k => e => {
     this.setState({ [k]: e.target.value })
   }
 
@@ -101,6 +105,7 @@ class ThreadList extends React.Component {
   render() {
     const { board } = this.props.match.params
     const { subject, sortKey, comment, author, showForm } = this.state
+    const { inputChange, toggle } = this
     return (
       <GetJson url={`https://api.lambdachan.org/v1/boards/${board}`}>
         {({ loading, data, errors }) => {
@@ -111,8 +116,8 @@ class ThreadList extends React.Component {
           }
           return List({
             data: data.threads,
-            inputChange: this.change,
-            toggle: this.toggle,
+            inputChange,
+            toggle,
             showForm,
             board,
             sortKey,
