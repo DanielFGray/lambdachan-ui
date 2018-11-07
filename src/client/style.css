@@ -77,6 +77,7 @@ pre > code {
 
 .main {
   padding: 2em;
+  width: 100%;
 }
 
 .nav {
@@ -131,7 +132,7 @@ pre > code {
   }
 
   & .thread_op {
-    width: 30em;
+    max-width: 30em;
     margin: 1em;
 
     & .body {
