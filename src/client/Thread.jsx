@@ -5,6 +5,7 @@ import GetJson from './GetJson'
 import { OP } from './Board'
 import { markdown } from './utils'
 import { UncontrolledEditor } from './PostEditor'
+import ctx from './ctx'
 
 const NewComment = ({ author, comment, inputChange, submitComment }) => (
   <form onSubmit={submitComment}>
@@ -21,7 +22,7 @@ const Comment = ({ post_num, board, thread, author, time, comment }) => {
   return (
     <div className="thread_comment" key={post_num}>
       <div className="header">
-        <Link to={`/${board}/${thread}/#${post_num}`}>#{post_num}</Link>
+        <Link to={`/${board.name}/${thread}/#${post_num}`}>#{post_num}</Link>
         {' by '}
         {author}
         {' '}

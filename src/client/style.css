@@ -70,20 +70,21 @@ pre > code {
   overflow-x: auto;
 }
 
+.layout {
+  display: flex;
+  justify-items: stretch;
+}
+
 .main {
-  padding: 40px 0;
-  margin: 0 2.5em 0 5em;
+  padding: 2em;
 }
 
 .nav {
   background: var(--light);
   height: 100%;
-  left: 0;
   line-height: 1.5;
+  padding: 1em;
   list-style-type: none;
-  margin: 0;
-  padding: 30px 20px;
-  position: fixed;
 }
 
 .active {
@@ -91,8 +92,8 @@ pre > code {
 }
 
 .body {
-  padding-left: 0.5em;
   border-left: 2px solid var(--light-darker);
+  padding-left: 1em;
   overflow: hidden;
 
   & img {
@@ -109,19 +110,19 @@ pre > code {
 
 .board .controls {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  flex-flow: row-reverse wrap;
+  justify-content: flex-end;
+  column-gap: 1em;
 }
 
 .thread_op {
-  margin-bottom: 1em;
-  margin-top: 0.5em;
+  padding: 0.5em;
 }
 
 .threadlist {
   display: flex;
   flex-flow: row wrap;
-  max-width
+  justify-content: center;
   margin: 0 auto;
 
   & a {
@@ -131,7 +132,7 @@ pre > code {
 
   & .thread_op {
     width: 30em;
-    margin: auto;
+    margin: 1em;
 
     & .body {
       max-height: 10em;

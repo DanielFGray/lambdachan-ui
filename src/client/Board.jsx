@@ -5,6 +5,7 @@ import GetJson from './GetJson'
 import Stringify from './Stringify'
 import { markdown } from './utils'
 import { UncontrolledEditor } from './PostEditor'
+import ctx from './ctx'
 
 const sortBy = (key, data) => data.sort((a, b) => {
   const [aa, bb] = [a[key], b[key]]
@@ -34,7 +35,7 @@ export const OP = ({
   return (
     <div className="thread_op" key={post_num}>
       <div className="header">
-        <Link to={`/${board}/${post_num}`}>#{post_num}</Link>
+        <Link to={`/${board.name}/${post_num}`}>#{post_num}</Link>
         {' '}
         <span className="subject">{subject}</span>
         {' by '}
@@ -50,6 +51,7 @@ export const OP = ({
 
 const List = ({ sortKey, data, board, showForm, ...props }) => (
   <div className="board">
+    <h3>/{board.name}/ - {board.description}</h3>
     <div className="controls">
       <div className="sort">
         <label>sort threads: </label>
@@ -65,7 +67,7 @@ const List = ({ sortKey, data, board, showForm, ...props }) => (
     {showForm && <NewPost {...props} />}
     <div className="threadlist">
       {data && sortBy(sortKey, data).map(e =>
-        <Link to={`/${board}/${e.post_num}`}>
+        <Link to={`/${board.name}/${e.post_num}`}>
           {OP({ ...e, board })}
         </Link>
       )}
@@ -103,31 +105,37 @@ class ThreadList extends React.Component {
   }
 
   render() {
-    const { board } = this.props.match.params
     const { subject, sortKey, comment, author, showForm } = this.state
     const { inputChange, toggle } = this
     return (
-      <GetJson url={`https://api.lambdachan.org/v1/boards/${board}`}>
-        {({ loading, data, errors }) => {
-          if (loading) return 'Loading...'
-          if (errors) {
-            console.log(errors)
-            return 'an error happened'
-          }
-          return List({
-            data: data.threads,
-            inputChange,
-            toggle,
-            showForm,
-            board,
-            sortKey,
-            subject,
-            author,
-            comment,
-            submitThread: this.submitThread,
-          })
+      <ctx.Consumer>
+        {({ boards }) => {
+          const board = boards.find(({ name }) => name === this.props.match.params.board)
+          return (
+            <GetJson url={`https://api.lambdachan.org/v1/boards/${board.name}`}>
+              {({ loading, data, errors }) => {
+                if (loading) return 'Loading...'
+                if (errors) {
+                  console.log(errors)
+                  return 'an error happened'
+                }
+                return List({
+                  data: data.threads,
+                  inputChange,
+                  toggle,
+                  showForm,
+                  board,
+                  sortKey,
+                  subject,
+                  author,
+                  comment,
+                  submitThread: this.submitThread,
+                })
+              }}
+            </GetJson>
+          )
         }}
-      </GetJson>
+      </ctx.Consumer>
     )
   }
 }

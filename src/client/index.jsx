@@ -26,6 +26,7 @@ export default class Init extends React.Component {
     this.getBoards()
   }
 
+  // update = this.setState.bind(this)
   update = patch => { this.setState(patch) }
 
   render() {
