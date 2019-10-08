@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
@@ -9,52 +9,38 @@ import Thread from './Thread'
 import ctx from './ctx'
 import 'normalize.css'
 import './style.css'
+import useJson from './GetJson'
 
-export default class Init extends React.Component {
-  state = {
-    boards: [],
-    author: '',
+export default function Init() {
+  const [author, setAuthor] = useState('')
+  const [{ data: boards, loading, error }, getBoards] = useJson({ url: 'https://api.lambdachan.org/v1/boards', initData: [] })
+
+  if (loading || ! boards.length) {
+    return 'Loading...'
   }
 
-  getBoards = () => {
-    fetch('https://api.lambdachan.org/v1/boards')
-      .then(x => x.json())
-      .then(boards => this.setState({ boards }))
-  }
-
-  componentDidMount() {
-    this.getBoards()
-  }
-
-  // update = this.setState.bind(this)
-  update = patch => { this.setState(patch) }
-
-  render() {
-    const { state, update } = this
-    if (! state.boards.length) {
-      return 'Loading...'
-    }
-    return (
-      <ctx.Provider value={{ ...state, update }}>
-        <HelmetProvider>
-          <Router basename={__appBase}>
-            <Layout>
-              <Switch>
-                <Route exact path={`/:board/:thread`} component={Thread} />)}
-                <Route exact path={`/:board`} component={Board} />)}
-                <Route exact path="/" component={Home} />
-              </Switch>
-            </Layout>
-          </Router>
-        </HelmetProvider>
-      </ctx.Provider>
-    )
-  }
+  return (
+    <ctx.Provider value={{
+      boards, author, setAuthor, getBoards,
+    }}
+    >
+      <HelmetProvider>
+        <Router basename={__appBase}>
+          <Layout>
+            <Switch>
+              <Route exact path="/:board/:thread" component={Thread} />
+              <Route exact path="/:board" component={Board} />
+              <Route exact path="/" component={Home} />
+            </Switch>
+          </Layout>
+        </Router>
+      </HelmetProvider>
+    </ctx.Provider>
+  )
 }
 
 if (document) {
   document.addEventListener('DOMContentLoaded', () => {
-    const initData = window.__INIT_DATA // eslint-disable-line no-underscore-dangle
-    ReactDOM.render(<Init initData={initData} />, document.getElementById(__mount))
+    ReactDOM.render(<Init />, document.getElementById(__mount))
   })
 }

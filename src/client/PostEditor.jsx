@@ -2,7 +2,9 @@ import React from 'react'
 import Textarea from 'react-textarea-autosize'
 import { markdown } from './utils'
 
-export const UncontrolledEditor = ({ onChange, value, children, ...props }) => {
+export const UncontrolledEditor = ({
+  onChange, value, children, ...props
+}) => {
   const content = value || children
   return (
     <>

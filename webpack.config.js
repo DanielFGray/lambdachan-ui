@@ -50,7 +50,7 @@ const plugins = [
     mobile: true,
   }),
   new DefinePlugin(constants),
-  new MiniCssExtractPlugin()
+  new MiniCssExtractPlugin(),
 ]
 
 const stats = {

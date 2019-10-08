@@ -1,27 +1,21 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 
-export default class extends React.Component {
-  state = {
-    expanded: false,
-  }
+export default function Expando(props) {
+  const [expanded, setExpanded] = useState(false)
 
-
-  click = e => {
+  const click = e => {
     e.preventDefault()
-    this.setState(s => ({ expanded: ! s.expanded }))
+    setExpanded(! expanded)
   }
 
-  render() {
-    const { expanded } = this.state
-    return expanded
-      ? (
-        <a href={this.props.src} onClick={this.click}>
-          <img src={this.props.src} alt={this.props.alt} />
-        </a>
-      ) : (
-        <a href={this.props.src} onClick={this.click}>
-          {this.props.alt || this.props.src}
-        </a>
-      )
-  }
+  return expanded
+    ? (
+      <a href={props.src} onClick={click}>
+        <img src={props.src} alt={props.alt} />
+      </a>
+    ) : (
+      <a href={props.src} onClick={click}>
+        {props.alt || props.src}
+      </a>
+    )
 }

@@ -1,37 +1,29 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
 
-export default class GetJson extends React.Component {
-  static propTypes = {
-    url: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired,
-  }
-
-  state = {
-    data: null,
-    errors: null,
+export default function useJson({ autoFetch = true, ...props }) {
+  const [state, _setState] = useState({
+    data: props.initData || null,
+    error: null,
     loading: true,
-  }
+  })
 
-  componentDidMount() {
-    this.fetch(this.props.url)
-  }
+  const setState = patch => _setState({ ...state, ...patch })
 
-  componentDidUpdate(prevProps) {
-    if (this.props.url !== prevProps.url) {
-      this.fetch(this.props.url)
-    }
-  }
+  const refetch = (url = props.url, { ...opts }) => {
+    if (! url) throw new Error('refetch needs a url')
 
-  fetch = (url = this.props.url) => {
-    this.setState({ loading: true })
-    fetch(url)
+    setState({ loading: true })
+    fetch(url, { ...props, ...opts })
       .then(x => x.json())
-      .then(data => this.setState({ data, loading: false, errors: null }))
-      .catch(e => this.setState({ errors: e, loading: false }))
+      .then(data => setState({ data, error: null, loading: false }))
+      .catch(e => setState({ error: e.message, loading: false }))
   }
 
-  render() {
-    return this.props.children(this.state, this.fetch)
-  }
+  useEffect(() => {
+    if (props.url && autoFetch) {
+      refetch()
+    }
+  }, [props.url])
+
+  return [state, refetch]
 }
