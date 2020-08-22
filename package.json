@@ -16,8 +16,8 @@
   "dependencies": {
     "normalize.css": "^8.0.0",
     "ramda": "^0.26.1",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-helmet-async": "^1.0.3",
     "react-markdown": "^4.0.3",
     "react-router-dom": "^5.1.2",
