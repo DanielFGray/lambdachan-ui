@@ -20,7 +20,7 @@
     "react-dom": "^16.6.0",
     "react-helmet-async": "^1.0.3",
     "react-markdown": "^4.0.3",
-    "react-router-dom": "^5.1.2",
+    "react-router-dom": "^5.2.0",
     "react-textarea-autosize": "^7.1.0-1",
     "s-ago": "^2.0.1"
   },
